@@ -9,6 +9,7 @@ t02_edgeon_a05_no_weighted_fraction, t03_bar_a06_bar_weighted_fraction, t04_spir
 3) Sky match the tables by RA and DEC in topcat, with the MaNGA data as table 1, and GZ as table 2.
 4) Remove the second set of RA and DEC columns, and name the first ones 'RA' and 'DEC'
 5) Save this file as a csv
+6) This only works in python 2 because it uses panoptes_client
 '''
 
 import numpy as np
