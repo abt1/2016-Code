@@ -15,7 +15,7 @@ t02_edgeon_a05_no_weighted_fraction, t03_bar_a06_bar_weighted_fraction, t04_spir
 import numpy as np
 #from panoptes_client import SubjectSet, Subject, Project, Panoptes
 import os
-from progressbar import ProgressBar
+import progressbar as pb
 myusername = os.environ['PANOPTES_USERNAME']
 mypassword = os.environ['PANOPTES_PASSWORD']
 #Panoptes.connect(username= myusername, password=mypassword)
@@ -25,7 +25,7 @@ mypassword = os.environ['PANOPTES_PASSWORD']
 #fullsample = SubjectSet.find(5326)
 #spirals = SubjectSet.find(5324)
 #bars = SubjectSet.find(5325)
-progress = ProgressBar()
+progress = pb.ProgressBar(widgets=[pb.Bar(), pb.ETA()])
 data = np.genfromtxt('../GZ3D/MatchedData.csv', delimiter = ',', names=True, 
                       dtype=[('DEC', float), ('IAUNAME', '|S30'),('IFUTARGETSIZE',int),
                              ('MANGAID', '|S10'),('MANGA_TILEID',int),('NSAID', int),
@@ -108,4 +108,4 @@ for row in progress(data):
             log.write(row['MANGAID'].decode('utf-8') + '\n')'''
             
             
-            '''bar = ProgressBar(widgets=[progressbar.Timer(), progressbar.Bar(), progressbar.ETA()])'''
+            '''bar = ProgressBar(widgets=[progressbar.Bar(), progressbar.ETA()])'''
