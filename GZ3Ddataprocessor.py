@@ -13,18 +13,18 @@ t02_edgeon_a05_no_weighted_fraction, t03_bar_a06_bar_weighted_fraction, t04_spir
 '''
 
 import numpy as np
-#from panoptes_client import SubjectSet, Subject, Project, Panoptes
+from panoptes_client import SubjectSet, Subject, Project, Panoptes
 import os
 import progressbar as pb
 myusername = os.environ['PANOPTES_USERNAME']
 mypassword = os.environ['PANOPTES_PASSWORD']
-#Panoptes.connect(username= myusername, password=mypassword)
+Panoptes.connect(username= myusername, password=mypassword)
 
-#project = Project.find(id='73')
+project = Project.find(id='73')
 
-#fullsample = SubjectSet.find(5326)
-#spirals = SubjectSet.find(5324)
-#bars = SubjectSet.find(5325)
+fullsample = SubjectSet.find(5326)
+spirals = SubjectSet.find(5324)
+bars = SubjectSet.find(5325)
 progress = pb.ProgressBar(widgets=[pb.Bar(), pb.ETA()])
 data = np.genfromtxt('../GZ3D/MatchedData.csv', delimiter = ',', names=True, 
                       dtype=[('DEC', float), ('IAUNAME', '|S30'),('IFUTARGETSIZE',int),
@@ -59,7 +59,7 @@ for row in progress(data):
                 dr7id = row['dr7objid']
                 specid = row['specobjid']
             summer += 1
-            '''subject = Subject()
+            subject = Subject()
             subject.links.project = project
             subject.add_location('./manga_mpl4_cutouts/cutouts/{0}.jpg'.format(row['MANGAID'].decode('utf-8')))
             subject.metadata['RA'] = row['RA']
@@ -105,7 +105,5 @@ for row in progress(data):
             except:
                 failfile.write(row['MANGAID'].decode('utf-8') + '\n')
                 
-            log.write(row['MANGAID'].decode('utf-8') + '\n')'''
+            log.write(row['MANGAID'].decode('utf-8') + '\n')
             
-            
-            '''bar = ProgressBar(widgets=[progressbar.Bar(), progressbar.ETA()])'''
