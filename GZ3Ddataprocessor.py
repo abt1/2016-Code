@@ -58,51 +58,50 @@ for row in data:
                 dr7id = row['dr7objid']
                 specid = row['specobjid']
             summer += 1
-            if summer > 313:
-                subject = Subject()
-                subject.links.project = project
-                subject.add_location('./manga_mpl4_cutouts/cutouts/{0}.jpg'.format(row['MANGAID'].decode('utf-8')))
-                subject.metadata['RA'] = row['RA']
-                subject.metadata['DEC'] = row['DEC']
-                subject.metadata['MANGAID'] = row['MANGAID'].decode('utf-8')
-                subject.metadata['Z'] = row['Z']
-                subject.metadata['PETROTH50'] = row['PETROTH50']
-                subject.metadata['#MANGA_TILEID'] = row['MANGA_TILEID']
-                subject.metadata['#NSAID'] = row['NSAID']
-                subject.metadata['#SERSIC_TH50'] = row['SERSIC_TH50']
-                subject.metadata['#P(Bar)'] = pbar
-                subject.metadata['#P(Spiral)'] = pspiral
-                subject.metadata['#specobjid'] = specid
-                subject.metadata['#dr8objid'] = dr8id
-                subject.metadata['#dr7objid'] = dr7id
-                try:
-                    subject.save()
-                
-                    fullsample.add(subject)
-                    if pspiral == 'NaN':
+            subject = Subject()
+            subject.links.project = project
+            subject.add_location('./manga_mpl4_cutouts/cutouts/{0}.jpg'.format(row['MANGAID'].decode('utf-8')))
+            subject.metadata['RA'] = row['RA']
+            subject.metadata['DEC'] = row['DEC']
+            subject.metadata['MANGAID'] = row['MANGAID'].decode('utf-8')
+            subject.metadata['Z'] = row['Z']
+            subject.metadata['PETROTH50'] = row['PETROTH50']
+            subject.metadata['#MANGA_TILEID'] = row['MANGA_TILEID']
+            subject.metadata['#NSAID'] = row['NSAID']
+            subject.metadata['#SERSIC_TH50'] = row['SERSIC_TH50']
+            subject.metadata['#P(Bar)'] = pbar
+            subject.metadata['#P(Spiral)'] = pspiral
+            subject.metadata['#specobjid'] = specid
+            subject.metadata['#dr8objid'] = dr8id
+            subject.metadata['#dr7objid'] = dr7id
+            try:
+                subject.save()
+            
+                fullsample.add(subject)
+                if pspiral == 'NaN':
+                    try:
+                        spirals.add(subject)
+                        bars.add(subject)
+                        nancounter += 1
+                    except:
+                        print subject.metadata
+                        raise Exception('stop the upload at NaN')
+                else:
+                    if pspiral > 0.5:
                         try:
                             spirals.add(subject)
-                            bars.add(subject)
-                            nancounter += 1
+                            spiralcount += 1
                         except:
                             print subject.metadata
-                            raise Exception('stop the upload at NaN')
-                    else:
-                        if pspiral > 0.5:
-                            try:
-                                spirals.add(subject)
-                                spiralcount += 1
-                            except:
-                                print subject.metadata
-                                raise Exception('stop the upload at spiral')
-                        if pbar > 0.5:
-                            try:
-                                bars.add(subject)
-                                counter += 1
-                            except:
-                                print subject.metadata
-                                raise Exception('stop the upload at bar')
-                except:
-                    failfile.write(row['MANGAID'].decode('utf-8') + '\n')
-                    
-                log.write(row['MANGAID'].decode('utf-8') + '\n')
+                            raise Exception('stop the upload at spiral')
+                    if pbar > 0.5:
+                        try:
+                            bars.add(subject)
+                            counter += 1
+                        except:
+                            print subject.metadata
+                            raise Exception('stop the upload at bar')
+            except:
+                failfile.write(row['MANGAID'].decode('utf-8') + '\n')
+                
+            log.write(row['MANGAID'].decode('utf-8') + '\n')
